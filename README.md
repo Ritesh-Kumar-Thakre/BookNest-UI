@@ -1,26 +1,49 @@
-# 🎨 BookNest Frontend - Modern Angular Application
+# 📚 BookNest Frontend — Modern Angular Web App
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Angular-21.0.0-dd0031.svg" alt="Angular">
-  <img src="https://img.shields.io/badge/RxJS-7.8.0-b7178c.svg" alt="RxJS">
-  <img src="https://img.shields.io/badge/CSS3-Modern-1572B6.svg" alt="CSS3">
-  <img src="https://img.shields.io/badge/HTML5-Semantic-E34F26.svg" alt="HTML5">
-  <img src="https://img.shields.io/badge/UX-Premium-blueviolet.svg" alt="UX">
+  <img src="https://img.shields.io/badge/Angular-21-dd0031?style=for-the-badge&logo=angular&logoColor=white" />
+  <img src="https://img.shields.io/badge/RxJS-7.8-b7178c?style=for-the-badge&logo=reactivex&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-Modern-3178c6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/UI/UX-Premium-blueviolet?style=for-the-badge" />
 </p>
 
-The **BookNest Frontend** is a state-of-the-art web application built with Angular. It provides a seamless, high-performance user interface for the BookNest ecosystem, connecting users with their favorite books through an intuitive and responsive design.
+<p align="center">
+  <b>A high-performance, scalable, and modern Angular application for seamless book discovery and management.</b>
+</p>
 
 ---
 
-## ✨ Key Features
+## ✨ Overview
 
-- 🏠 **Dynamic Home Page**: Featured books, carousels, and personalized recommendations.
-- 🔍 **Advanced Search & Filter**: Real-time book discovery with category and price filtering.
-- 🛒 **Smart Cart & Checkout**: Integrated shopping experience with real-time stock validation.
-- 👤 **User Profiles**: Comprehensive profile management including order history and wishlists.
-- 💰 **Digital Wallet**: Secure wallet management for seamless transactions.
-- 🛡️ **Admin & Seller Dashboards**: Specialized tools for inventory management, user moderation, and sales tracking.
-- 🔔 **Notification Center**: Real-time alerts for order updates and system announcements.
+**BookNest Frontend** is a feature-rich Angular application designed to deliver a **smooth, responsive, and intuitive user experience**.  
+It connects users to a powerful backend ecosystem, enabling **book browsing, purchasing, and management** with real-time interactions.
+
+---
+
+## 🌟 Features
+
+### 🧭 User Experience
+- 🏠 Dynamic homepage with featured books & recommendations  
+- 🔍 Real-time search with filters (category, price, rating)  
+- 📱 Fully responsive design  
+
+### 🛒 Commerce & Transactions
+- 🛍️ Smart cart with live validation  
+- 💳 Seamless checkout flow  
+- 💰 Integrated digital wallet  
+
+### 👤 User Management
+- 👤 Profile dashboard  
+- 📦 Order history & tracking  
+- ❤️ Wishlist management  
+
+### 🛠️ Admin & Seller Tools
+- 📊 Seller dashboard for inventory management  
+- 🛡️ Admin panel for moderation & analytics  
+
+### 🔔 System Features
+- 🔔 Real-time notifications  
+- ⚡ High-performance UI with optimized rendering  
 
 ---
 

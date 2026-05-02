@@ -1,0 +1,47 @@
+<div class="container section">
+  <h1 class="headline-lg">My Wallet</h1>
+  <div class="wallet-grid">
+    <div class="card wallet-card">
+      <div class="balance-section">
+        <p class="label-md" style="color:var(--on-surface-variant)">Available Balance</p>
+        <p class="headline-xl" style="color:var(--primary)">₹{{ wallet?.currentBalance || 0 }}</p>
+      </div>
+      <div class="topup-section">
+        <h3 class="label-md">Add Money</h3>
+        <div class="topup-row">
+          <input type="number" class="form-input" [(ngModel)]="amount" placeholder="Enter amount" min="1" max="50000">
+          <button class="btn btn-secondary" (click)="addMoney()" [disabled]="!amount || amount < 1">Add</button>
+        </div>
+        <div class="quick-amounts">
+          @for (a of [500, 1000, 2000, 5000]; track a) {
+            <button class="chip" (click)="amount = a">₹{{ a }}</button>
+          }
+        </div>
+        <div class="razorpay-section" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--outline-variant)">
+          <button class="btn btn-outline" disabled style="width:100%;opacity:0.6;cursor:not-allowed">
+            <span class="material-symbols-outlined">account_balance</span>
+            Pay via Razorpay / UPI
+            <span class="chip" style="margin-left:8px;font-size:10px;padding:2px 8px">Coming Soon</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="padding:24px">
+      <h3 class="headline-md" style="margin-bottom:16px">Transaction History</h3>
+      @for (s of statements; track s.statementId) {
+        <div class="txn-row">
+          <div>
+            <p class="label-md">{{ s.transactionRemarks || s.description || s.transactionType }}</p>
+            <p class="label-sm" style="color:var(--on-surface-variant)">{{ s.dateTime | date:'medium' }}</p>
+          </div>
+          <span class="txn-amount" [class.credit]="(s.transactionType || '').toUpperCase() === 'DEPOSIT'" [class.debit]="(s.transactionType || '').toUpperCase() === 'WITHDRAW' || (s.transactionType || '').toUpperCase() === 'PAYMENT'">
+            {{ (s.transactionType || '').toUpperCase() === 'DEPOSIT' ? '+' : '-' }}₹{{ s.amount }}
+          </span>
+        </div>
+      }
+      @if (statements.length === 0) {
+        <p class="body-md" style="color:var(--on-surface-variant);text-align:center;padding:32px 0">No transactions yet</p>
+      }
+    </div>
+  </div>
+</div>

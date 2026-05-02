@@ -1,0 +1,29 @@
+<div class="container section">
+  <h1 class="headline-lg">My Orders</h1>
+  <div class="orders-list">
+    @for (order of orders; track order.orderId) {
+      <div class="card order-card">
+        <div class="order-header">
+          <div>
+            <span class="label-md">Order #{{ order.orderId }}</span>
+            <span class="label-sm" style="color:var(--on-surface-variant);margin-left:12px">{{ order.orderDate | date:'mediumDate' }}</span>
+          </div>
+          <span class="status-chip" [class]="order.orderStatus?.toLowerCase()">{{ order.orderStatus }}</span>
+        </div>
+        <div class="order-details">
+          <div class="detail-row"><span>Total</span><span class="price">₹{{ order.amountPaid }}</span></div>
+          <div class="detail-row"><span>Payment</span><span>{{ order.modeOfPayment }}</span></div>
+        </div>
+        @if (order.orderStatus === 'PLACED' || order.orderStatus === 'CONFIRMED') {
+          <button class="btn btn-outline" style="color:var(--error);border-color:var(--error);margin-top:12px" (click)="cancel(order)">Cancel Order</button>
+        }
+      </div>
+    }
+  </div>
+  @if (orders.length === 0) {
+    <div class="empty-state">
+      <span class="material-symbols-outlined" style="font-size:64px;color:var(--outline)">receipt_long</span>
+      <p class="body-lg">No orders yet</p>
+    </div>
+  }
+</div>

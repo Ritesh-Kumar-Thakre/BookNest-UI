@@ -1,0 +1,46 @@
+<div class="container section">
+  <h1 class="headline-lg">My Profile</h1>
+  @if (user) {
+    <div class="profile-grid">
+      <div class="card" style="padding:32px">
+        <div class="avatar-wrapper">
+          @if (getProfileImageUrl()) {
+            <img [src]="getProfileImageUrl()" alt="Profile" class="avatar-img">
+          } @else {
+            <div class="avatar"><span class="material-symbols-outlined">person</span></div>
+          }
+          <label class="avatar-upload-btn" title="Upload profile photo">
+            <span class="material-symbols-outlined">photo_camera</span>
+            <input type="file" accept="image/*" (change)="onProfileImageSelected($event)" hidden>
+          </label>
+          @if (uploadingImage) {
+            <div class="avatar-loading">
+              <span class="material-symbols-outlined spin">progress_activity</span>
+            </div>
+          }
+        </div>
+        <h2 class="headline-md" style="text-align:center;margin:12px 0 4px">{{ user.fullName }}</h2>
+        <p class="body-md" style="text-align:center;color:var(--on-surface-variant)">{{ user.email }}</p>
+        <div class="info-rows">
+          <div class="info-row"><span class="label-md">Role</span><span class="chip">{{ user.role }}</span></div>
+          <div class="info-row"><span class="label-md">Mobile</span><span>{{ user.mobile || 'Not set' }}</span></div>
+        </div>
+      </div>
+      <div class="card" style="padding:32px">
+        <h3 class="headline-md" style="margin-bottom:20px">Edit Profile</h3>
+        <form (ngSubmit)="update()" class="edit-form">
+          <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" [(ngModel)]="editUser.fullName" name="fullName"></div>
+          <div class="form-group"><label class="form-label">Mobile</label><input class="form-input" [(ngModel)]="editUser.mobile" name="mobile"></div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+        <hr style="margin:24px 0">
+        <h3 class="headline-md" style="margin-bottom:20px">Change Password</h3>
+        <form (ngSubmit)="changePass()" class="edit-form">
+          <div class="form-group"><label class="form-label">Current Password</label><input type="password" class="form-input" [(ngModel)]="oldPass" name="oldPass"></div>
+          <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" [(ngModel)]="newPass" name="newPass"></div>
+          <button type="submit" class="btn btn-outline">Update Password</button>
+        </form>
+      </div>
+    </div>
+  }
+</div>

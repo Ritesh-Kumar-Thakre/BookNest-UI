@@ -57,20 +57,20 @@ graph TD
     App --> Pages[Pages Module]
     App --> Shared[Shared Module]
 
-    subgraph "Core"
+    subgraph "CoreModule"
         Core --> Auth[Auth Service]
         Core --> Guards[Route Guards]
         Core --> Interceptors[HTTP Interceptors]
     end
 
-    subgraph "Pages"
+    subgraph "PagesModule"
         Pages --> Catalog[Catalog/Search]
         Pages --> BookDetails[Book Details]
         Pages --> User[User/Profile/Wallet]
         Pages --> Dashboards[Admin/Seller]
     end
 
-    subgraph "Shared"
+    subgraph "SharedModule"
         Shared --> Navbar[Navigation Bar]
         Shared --> Footer[Site Footer]
         Shared --> UI[Toast/Spinners/Modals]

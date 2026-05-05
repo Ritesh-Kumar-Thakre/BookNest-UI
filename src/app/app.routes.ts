@@ -20,6 +20,7 @@ import { AdminDashboard } from './pages/admin/dashboard/admin-dashboard';
 import { AdminBooks } from './pages/admin/books/admin-books';
 import { AdminOrders } from './pages/admin/orders/admin-orders';
 import { AdminUsers } from './pages/admin/users/admin-users';
+import { AdminReviews } from './pages/admin/reviews/admin-reviews';
 import { AdminVerification } from './pages/admin/verification/admin-verification';
 import { SellerBooks } from './pages/seller/seller-books';
 import { sellerGuard } from './core/guards/seller.guard';
@@ -49,7 +50,8 @@ export const routes: Routes = [
       { path: 'books', component: AdminBooks },
       { path: 'verification', component: AdminVerification },
       { path: 'orders', component: AdminOrders },
-      { path: 'users', component: AdminUsers }
+      { path: 'users', component: AdminUsers },
+      { path: 'reviews', component: AdminReviews }
     ]
   },
   { 

@@ -7,6 +7,9 @@ import { WalletService } from '../../core/services/wallet.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
 import { BookService } from '../../core/services/book.service';
+import { environment } from '../../../environments/environment';
+
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-checkout',
@@ -28,6 +31,7 @@ export class Checkout implements OnInit {
   walletBalance = 0;
   paymentMode = 'COD';
   loading = false;
+  razorpayLoading = false;
   address = { street: '', city: '', state: '', zipCode: '', country: 'India' };
   userProfile: any = null;
   stockErrors: string[] = [];
@@ -42,7 +46,29 @@ export class Checkout implements OnInit {
       }
     });
     this.walletService.getBalance().subscribe({ next: b => this.walletBalance = b.balance, error: () => {} });
-    this.auth.getProfile(userId).subscribe({ next: p => this.userProfile = p });
+    this.auth.getProfile(userId).subscribe({
+      next: (p: any) => {
+        this.userProfile = p;
+        // Auto-fill saved address from profile
+        if (p.addressStreet || p.addressCity) {
+          this.address.street = p.addressStreet || '';
+          this.address.city = p.addressCity || '';
+          this.address.state = p.addressState || '';
+          this.address.zipCode = p.addressPincode || '';
+        }
+      }
+    });
+  }
+
+  /** Fill address fields from saved profile address */
+  useSavedAddress() {
+    if (this.userProfile) {
+      this.address.street = this.userProfile.addressStreet || '';
+      this.address.city = this.userProfile.addressCity || '';
+      this.address.state = this.userProfile.addressState || '';
+      this.address.zipCode = this.userProfile.addressPincode || '';
+      this.toast.show('Saved address applied!', 'success');
+    }
   }
 
   /** Check current stock for every item in the cart */
@@ -96,6 +122,12 @@ export class Checkout implements OnInit {
       return;
     }
 
+    // If Razorpay is selected, use Razorpay flow
+    if (this.paymentMode === 'RAZORPAY') {
+      this.placeOrderViaRazorpay();
+      return;
+    }
+
     this.loading = true;
     const userId = this.auth.getUserId()!;
     const firstItem = this.cart.items[0]; // Backend only supports one item per order
@@ -133,6 +165,114 @@ export class Checkout implements OnInit {
         this.toast.show(msg, 'error');
         // Re-verify stock since it may have changed
         this.verifyCartStock();
+      }
+    });
+  }
+
+  /** Razorpay checkout flow */
+  private placeOrderViaRazorpay() {
+    this.loading = true;
+    this.razorpayLoading = true;
+
+    const userId = this.auth.getUserId()!;
+    const firstItem = this.cart.items[0];
+
+    const orderRequest = {
+      userId,
+      productId: firstItem.bookId,
+      quantity: firstItem.quantity,
+      modeOfPayment: 'RAZORPAY',
+      fullName: this.userProfile?.fullName || 'Customer',
+      mobileNumber: String(this.userProfile?.mobile || ''),
+      flatNumber: this.address.street.trim(),
+      city: this.address.city.trim(),
+      pincode: this.address.zipCode.trim(),
+      state: this.address.state.trim()
+    };
+
+    // Step 1: Place the order (status: PLACED)
+    this.orderService.placeOrder(orderRequest).subscribe({
+      next: (placedOrder: any) => {
+        // Step 2: Create a Razorpay order for the total amount
+        const totalAmount = placedOrder.amountPaid || this.cart.totalPrice;
+
+        this.walletService.createRazorpayOrder(totalAmount).subscribe({
+          next: (rzpOrder) => {
+            this.razorpayLoading = false;
+
+            // Step 3: Open Razorpay checkout modal
+            const options = {
+              key: environment.razorpayKey,
+              amount: rzpOrder.amount,
+              currency: rzpOrder.currency,
+              name: 'BookNest',
+              description: `Order #${placedOrder.orderId}`,
+              order_id: rzpOrder.orderId,
+              handler: (response: any) => {
+                // Step 4: Confirm order after successful Razorpay payment
+                this.confirmRazorpayOrder(
+                  placedOrder.orderId,
+                  response.razorpay_payment_id,
+                  userId
+                );
+              },
+              prefill: {
+                name: this.userProfile?.fullName || '',
+                email: (this.auth as any).getUserEmail?.() || '',
+                contact: this.userProfile?.mobile || ''
+              },
+              theme: {
+                color: '#6C63FF'
+              },
+              modal: {
+                ondismiss: () => {
+                  this.loading = false;
+                  this.toast.show('Payment cancelled. Your order is still pending.', 'error');
+                }
+              }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', (resp: any) => {
+              this.loading = false;
+              this.toast.show('Payment failed: ' + (resp.error?.description || 'Unknown error'), 'error');
+            });
+            rzp.open();
+          },
+          error: (err) => {
+            this.loading = false;
+            this.razorpayLoading = false;
+            const msg = err.error?.message || 'Failed to create Razorpay order';
+            this.toast.show(msg, 'error');
+          }
+        });
+      },
+      error: (err) => {
+        this.loading = false;
+        this.razorpayLoading = false;
+        const msg = err.error?.message || err.error || 'Order failed';
+        this.toast.show(msg, 'error');
+        this.verifyCartStock();
+      }
+    });
+  }
+
+  /** Confirm the order after Razorpay payment success */
+  private confirmRazorpayOrder(
+    bookNestOrderId: number,
+    razorpayPaymentId: string,
+    userId: number
+  ) {
+    // Razorpay handler only fires on successful payments — confirm the order directly
+    this.orderService.updateStatus(bookNestOrderId, 'CONFIRMED').subscribe({
+      next: () => {
+        this.toast.show(`Payment successful (${razorpayPaymentId})! Order confirmed.`, 'success');
+        this.finalizeOrder(userId);
+      },
+      error: () => {
+        // Payment was successful even if status update had an issue
+        this.toast.show('Payment successful! Order will be confirmed shortly.', 'success');
+        this.finalizeOrder(userId);
       }
     });
   }

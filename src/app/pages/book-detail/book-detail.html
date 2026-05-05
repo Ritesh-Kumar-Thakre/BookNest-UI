@@ -125,21 +125,52 @@
       <div class="reviews-list">
         @for (r of reviews; track r.reviewId) {
           <div class="review-card card">
-            <div class="review-header">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="reviewer-avatar">{{ getInitial(r.reviewerName) }}</div>
-                <div>
-                  <span class="label-md" style="color: var(--on-surface); font-weight: 600;">{{ r.reviewerName || 'Anonymous' }}</span>
-                  <div class="stars" style="font-size:14px; margin-top: 2px;">
-                    @for (s of [1,2,3,4,5]; track s) {
-                      <span class="material-symbols-outlined" [style.font-variation-settings]="getRatingFill(s, r.rating)" style="font-size:16px">star</span>
-                    }
-                  </div>
+            @if (editingReviewId === r.reviewId) {
+              <!-- Edit Mode -->
+              <div class="review-edit-mode">
+                <div class="star-input">
+                  @for (s of [1,2,3,4,5]; track s) {
+                    <span class="material-symbols-outlined" (click)="editReview.rating = s" [style.font-variation-settings]="getRatingFill(s, editReview.rating)" style="cursor:pointer;font-size:24px">star</span>
+                  }
+                </div>
+                <textarea class="form-input" [(ngModel)]="editReview.comment" rows="3"></textarea>
+                <div class="review-edit-actions">
+                  <button class="btn btn-primary" style="padding:8px 20px;font-size:13px" (click)="saveEdit(r)">Save</button>
+                  <button class="btn btn-outline" style="padding:8px 20px;font-size:13px" (click)="cancelEdit()">Cancel</button>
                 </div>
               </div>
-              <span class="label-sm" style="color:var(--on-surface-variant)">{{ r.createdAt | date:'mediumDate' }}</span>
-            </div>
-            <p class="body-md" style="margin-top: 8px;">{{ r.comment }}</p>
+            } @else {
+              <!-- Display Mode -->
+              <div class="review-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="reviewer-avatar">{{ getInitial(r.reviewerName) }}</div>
+                  <div>
+                    <span class="label-md" style="color: var(--on-surface); font-weight: 600;">{{ r.reviewerName || 'Anonymous' }}</span>
+                    <div class="stars" style="font-size:14px; margin-top: 2px;">
+                      @for (s of [1,2,3,4,5]; track s) {
+                        <span class="material-symbols-outlined" [style.font-variation-settings]="getRatingFill(s, r.rating)" style="font-size:16px">star</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="review-actions-row">
+                  <span class="label-sm" style="color:var(--on-surface-variant)">{{ r.createdAt | date:'mediumDate' }}</span>
+                  @if (isOwnReview(r)) {
+                    <button class="review-action-btn" title="Edit" (click)="startEdit(r)">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="review-action-btn delete" title="Delete" (click)="deleteReview(r)">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  } @else if (isAdmin()) {
+                    <button class="review-action-btn delete" title="Delete (Admin)" (click)="deleteReview(r)">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  }
+                </div>
+              </div>
+              <p class="body-md" style="margin-top: 8px;">{{ r.comment }}</p>
+            }
           </div>
         }
       </div>

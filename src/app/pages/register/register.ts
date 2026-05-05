@@ -22,7 +22,7 @@ export class Register {
 
   registerForm: FormGroup = this.fb.group({
     fullName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/)]],
     mobile: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
     password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
     role: ['CUSTOMER']

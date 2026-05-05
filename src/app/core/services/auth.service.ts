@@ -12,6 +12,7 @@ export class AuthService {
   static readonly PUBLIC_PATHS = [
     '/api/v1/auth/login',
     '/api/v1/auth/register',
+    '/api/v1/auth/google',
     '/api/v1/auth/uploads/',
     '/api/v1/books/all',
     '/api/v1/books/search',
@@ -38,6 +39,17 @@ export class AuthService {
           const actualToken = res.replace(/^"|"$/g, '');
           localStorage.setItem('token', actualToken);
           this.decodeAndStoreUser(actualToken);
+        }
+      })
+    );
+  }
+
+  loginWithGoogle(idToken: string) {
+    return this.http.post<any>(`${this.api}/google`, { idToken }).pipe(
+      tap(res => {
+        if (res && res.token) {
+          localStorage.setItem('token', res.token);
+          this.decodeAndStoreUser(res.token);
         }
       })
     );

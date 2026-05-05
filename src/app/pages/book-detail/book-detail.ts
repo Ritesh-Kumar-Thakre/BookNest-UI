@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookService } from '../../core/services/book.service';
 import { CartService } from '../../core/services/cart.service';
@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-book-detail',
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, DecimalPipe],
   templateUrl: './book-detail.html',
   styleUrl: './book-detail.css'
 })
@@ -35,6 +35,8 @@ export class BookDetail implements OnInit {
   apiUrl = environment.apiUrl;
   quantity = 1;
   currentUserName = '';
+  editingReviewId: number | null = null;
+  editReview = { rating: 0, comment: '' };
 
   getRatingFill(star: number, rating: number): string {
     return star <= Math.round(rating || 0) ? "'FILL' 1" : "'FILL' 0";
@@ -140,6 +142,59 @@ export class BookDetail implements OnInit {
         this.toast.show('Review submitted!', 'success');
       },
       error: err => this.toast.show(err.error?.message || err.error || 'Failed', 'error')
+    });
+  }
+
+  /** Check if the current user owns this review */
+  isOwnReview(review: any): boolean {
+    return review.userId === this.auth.getUserId();
+  }
+
+  /** Check if user is admin */
+  isAdmin(): boolean {
+    return this.auth.getRole() === 'ADMIN';
+  }
+
+  /** Start editing a review */
+  startEdit(review: any) {
+    this.editingReviewId = review.reviewId;
+    this.editReview = { rating: review.rating, comment: review.comment };
+  }
+
+  /** Cancel editing */
+  cancelEdit() {
+    this.editingReviewId = null;
+    this.editReview = { rating: 0, comment: '' };
+  }
+
+  /** Save edited review */
+  saveEdit(review: any) {
+    this.reviewService.update(review.reviewId, {
+      bookId: this.book.bookId,
+      userId: review.userId,
+      userName: review.reviewerName,
+      rating: this.editReview.rating,
+      comment: this.editReview.comment
+    }).subscribe({
+      next: (updated: any) => {
+        review.rating = updated.rating || this.editReview.rating;
+        review.comment = updated.comment || this.editReview.comment;
+        this.editingReviewId = null;
+        this.toast.show('Review updated!', 'success');
+      },
+      error: err => this.toast.show(err.error?.message || 'Failed to update', 'error')
+    });
+  }
+
+  /** Delete a review (own or admin) */
+  deleteReview(review: any) {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    this.reviewService.delete(review.reviewId).subscribe({
+      next: () => {
+        this.reviews = this.reviews.filter(r => r.reviewId !== review.reviewId);
+        this.toast.show('Review deleted', 'info');
+      },
+      error: err => this.toast.show(err.error?.message || 'Failed to delete', 'error')
     });
   }
 

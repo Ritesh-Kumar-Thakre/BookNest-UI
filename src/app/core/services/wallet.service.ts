@@ -28,6 +28,10 @@ export class WalletService {
     return this.http.put(`${this.api}/addmoney/${walletId}?amount=${amount}&remarks=TopUp`, {});
   }
 
+  withdrawMoney(walletId: number, amount: number) {
+    return this.http.put(`${this.api}/withdraw/${walletId}?amount=${amount}&remarks=Withdrawal`, {});
+  }
+
   getBalance() {
     return this.http.get<{balance: number}>(`${this.api}/balance`);
   }
@@ -35,5 +39,28 @@ export class WalletService {
   getStatements(walletId: number) {
     // Backend endpoint is /statement/{walletId} not /statements/
     return this.http.get<any[]>(`${this.api}/statement/${walletId}`);
+  }
+
+  // ─── Razorpay ─────────────────────────────────────────────
+  createRazorpayOrder(amount: number) {
+    return this.http.post<any>(`${this.api}/razorpay/create-order?amount=${amount}`, {});
+  }
+
+  verifyRazorpayPayment(payload: {
+    walletId: number;
+    razorpayOrderId: string;
+    razorpayPaymentId: string;
+    razorpaySignature: string;
+  }) {
+    return this.http.post<any>(`${this.api}/razorpay/verify`, payload);
+  }
+
+  /** Verify Razorpay signature only (for order checkout, no wallet credit) */
+  verifyRazorpaySignature(payload: {
+    razorpayOrderId: string;
+    razorpayPaymentId: string;
+    razorpaySignature: string;
+  }) {
+    return this.http.post<any>(`${this.api}/razorpay/verify-signature`, payload);
   }
 }

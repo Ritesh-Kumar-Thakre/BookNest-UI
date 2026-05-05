@@ -453,4 +453,21 @@ img {
   .headline-xl { font-size: 28px; }
   .headline-lg { font-size: 24px; }
   .headline-md { font-size: 20px; }
+
+  .btn { padding: 10px 20px; font-size: 13px; }
+
+  .toast-container { right: 16px; left: 16px; }
+  .toast { min-width: auto; }
 }
+
+@media (max-width: 480px) {
+  :root {
+    --margin: 12px;
+  }
+
+  .headline-xl { font-size: 24px; }
+  .headline-lg { font-size: 20px; }
+  .headline-md { font-size: 18px; }
+  .body-lg { font-size: 16px; }
+}
+

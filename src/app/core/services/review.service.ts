@@ -31,4 +31,8 @@ export class ReviewService {
   delete(reviewId: number) {
     return this.http.delete(`${this.api}/${reviewId}`);
   }
+
+  getAll(page = 0, size = 100) {
+    return this.http.get<any>(`${this.api}`, { params: { page, size } });
+  }
 }

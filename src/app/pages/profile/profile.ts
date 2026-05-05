@@ -15,6 +15,7 @@ export class Profile implements OnInit {
   private toast = inject(ToastService);
   user: any = null;
   editUser = { fullName: '', mobile: null, userId: 0 };
+  editAddress = { addressStreet: '', addressCity: '', addressState: '', addressPincode: '' };
   oldPass = '';
   newPass = '';
   uploadingImage = false;
@@ -23,7 +24,16 @@ export class Profile implements OnInit {
   ngOnInit() {
     const userId = this.auth.getUserId()!;
     this.auth.getProfile(userId).subscribe({
-      next: (u: any) => { this.user = u; this.editUser = { fullName: u.fullName, mobile: u.mobile, userId: u.userId }; }
+      next: (u: any) => {
+        this.user = u;
+        this.editUser = { fullName: u.fullName, mobile: u.mobile, userId: u.userId };
+        this.editAddress = {
+          addressStreet: u.addressStreet || '',
+          addressCity: u.addressCity || '',
+          addressState: u.addressState || '',
+          addressPincode: u.addressPincode || ''
+        };
+      }
     });
   }
 
@@ -71,10 +81,28 @@ export class Profile implements OnInit {
     });
   }
 
+  saveAddress() {
+    const payload = { ...this.editUser, ...this.editAddress };
+    this.auth.updateProfile(payload).subscribe({
+      next: () => {
+        this.user.addressStreet = this.editAddress.addressStreet;
+        this.user.addressCity = this.editAddress.addressCity;
+        this.user.addressState = this.editAddress.addressState;
+        this.user.addressPincode = this.editAddress.addressPincode;
+        this.toast.show('Address saved!', 'success');
+      },
+      error: err => this.toast.show(err.error?.message || err.error || 'Failed', 'error')
+    });
+  }
+
   changePass() {
     this.auth.changePassword(this.user.userId, this.oldPass, this.newPass).subscribe({
       next: () => { this.oldPass = ''; this.newPass = ''; this.toast.show('Password changed!', 'success'); },
       error: err => this.toast.show(err.error?.message || err.error || 'Failed', 'error')
     });
+  }
+
+  hasAddress(): boolean {
+    return !!(this.user?.addressStreet || this.user?.addressCity || this.user?.addressState || this.user?.addressPincode);
   }
 }

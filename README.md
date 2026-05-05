@@ -1,10 +1,20 @@
 # 📚 BookNest Frontend — Modern Angular Web App
-
 <p align="center">
-  <img src="https://img.shields.io/badge/Angular-21-dd0031?style=for-the-badge&logo=angular&logoColor=white" />
-  <img src="https://img.shields.io/badge/RxJS-7.8-b7178c?style=for-the-badge&logo=reactivex&logoColor=white" />
-  <img src="https://img.shields.io/badge/TypeScript-Modern-3178c6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/UI/UX-Premium-blueviolet?style=for-the-badge" />
+  <a href="https://angular.io" target="_blank">
+    <img src="https://img.shields.io/badge/Angular-21-dd0031?style=for-the-badge&logo=angular&logoColor=white" />
+  </a>
+
+  <a href="https://rxjs.dev" target="_blank">
+    <img src="https://img.shields.io/badge/RxJS-7.8-b7178c?style=for-the-badge&logo=reactivex&logoColor=white" />
+  </a>
+
+  <a href="https://www.typescriptlang.org" target="_blank">
+    <img src="https://img.shields.io/badge/TypeScript-Modern-3178c6?style=for-the-badge&logo=typescript&logoColor=white" />
+  </a>
+
+  <a href="https://material.angular.io/" target="_blank">
+    <img src="https://img.shields.io/badge/UI/UX-Premium-blueviolet?style=for-the-badge" />
+  </a>
 </p>
 
 <p align="center">

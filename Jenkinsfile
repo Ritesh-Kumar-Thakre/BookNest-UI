@@ -79,12 +79,16 @@ pipeline {
             echo '✅ BookNest Frontend Pipeline completed successfully!'
         }
         failure {
-            echo '❌ BookNest Frontend Pipeline failed!'
-            sh "docker stop ${DOCKER_IMAGE} || true"
-            sh "docker rm ${DOCKER_IMAGE} || true"
+            node {
+                echo '❌ BookNest Frontend Pipeline failed!'
+                sh "docker stop ${DOCKER_IMAGE} || true"
+                sh "docker rm ${DOCKER_IMAGE} || true"
+            }
         }
         always {
-            cleanWs(cleanWhenNotBuilt: false)
+            node {
+                cleanWs(cleanWhenNotBuilt: false)
+            }
         }
     }
 }

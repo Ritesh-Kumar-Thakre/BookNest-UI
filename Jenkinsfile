@@ -5,6 +5,10 @@ pipeline {
         DOCKER_IMAGE = 'booknest-frontend'
     }
 
+    tools {
+        nodejs 'NodeJS-20'
+    }
+
     stages {
 
         // ── Stage 1: Checkout ───────────────────────────────

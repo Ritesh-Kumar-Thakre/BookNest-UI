@@ -143,7 +143,17 @@
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .wallet-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
   .quick-amounts { flex-wrap: wrap; }
+}
+@media (max-width: 360px) {
+  .wallet-card { padding: 16px; }
+  .wallet-tabs { flex-direction: column; border-radius: 8px; }
+  .wallet-tab { padding: 10px; border-bottom: 1px solid var(--outline-variant); }
+  .topup-row { flex-direction: column; }
+  .txn-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .txn-amount { align-self: flex-start; margin-left: 48px; }
 }

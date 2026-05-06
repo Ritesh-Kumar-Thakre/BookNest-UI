@@ -12,38 +12,38 @@
     <div class="sidebar-links">
       <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="material-symbols-outlined">dashboard</span>
-        Dashboard
+        <span class="link-text">Dashboard</span>
       </a>
       <a routerLink="/admin/books" routerLinkActive="active">
         <span class="material-symbols-outlined">menu_book</span>
-        Book Management
+        <span class="link-text">Book Management</span>
       </a>
       <a routerLink="/admin/verification" routerLinkActive="active">
         <span class="material-symbols-outlined">fact_check</span>
-        Verification
+        <span class="link-text">Verification</span>
       </a>
       <a routerLink="/admin/orders" routerLinkActive="active">
         <span class="material-symbols-outlined">shopping_cart</span>
-        Orders
+        <span class="link-text">Orders</span>
       </a>
       <a routerLink="/admin/users" routerLinkActive="active">
         <span class="material-symbols-outlined">group</span>
-        Users
+        <span class="link-text">Users</span>
       </a>
       <a routerLink="/admin/reviews" routerLinkActive="active">
         <span class="material-symbols-outlined">reviews</span>
-        Reviews
+        <span class="link-text">Reviews</span>
       </a>
     </div>
 
     <div class="sidebar-footer">
       <a (click)="onLogout()" class="logout-btn">
         <span class="material-symbols-outlined">logout</span>
-        Logout
+        <span class="link-text">Logout</span>
       </a>
       <a routerLink="/" class="back-btn" style="margin-top: 8px;">
         <span class="material-symbols-outlined">storefront</span>
-        Storefront
+        <span class="link-text">Storefront</span>
       </a>
     </div>
   </nav>
@@ -56,7 +56,7 @@
         <!-- We can add search functionality later -->
       </div>
       <div class="header-actions">
-        <button class="icon-btn">
+        <button class="icon-btn" routerLink="/notifications">
           <span class="material-symbols-outlined">notifications</span>
         </button>
         <div class="divider"></div>
@@ -73,6 +73,17 @@
     <!-- Main Canvas -->
     <main class="admin-content">
       <router-outlet></router-outlet>
+      
+      <div class="mobile-admin-footer">
+        <a (click)="onLogout()" class="logout-btn">
+          <span class="material-symbols-outlined">logout</span>
+          <span class="link-text">Logout</span>
+        </a>
+        <a routerLink="/" class="back-btn">
+          <span class="material-symbols-outlined">storefront</span>
+          <span class="link-text">Storefront</span>
+        </a>
+      </div>
     </main>
   </div>
 </div>

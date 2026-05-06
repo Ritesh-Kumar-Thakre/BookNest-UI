@@ -34,3 +34,14 @@
   border-color: var(--primary-container);
   box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
 }
+
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+@media (max-width: 480px) {
+  .admin-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .address-cell { max-width: 150px; }
+}
+@media (max-width: 360px) {
+  .card { border-radius: 8px; }
+}

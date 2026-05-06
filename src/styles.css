@@ -83,14 +83,29 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   font-family: 'Work Sans', sans-serif;
-  background-color: var(--background);
+  background-color: #000000;
   color: var(--on-background);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1920px;
+  margin: 0 auto;
+  background-color: var(--background);
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -388,6 +403,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  pointer-events: none;
 }
 
 .toast {
@@ -399,6 +415,7 @@ img {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 280px;
+  pointer-events: auto;
 }
 
 .toast.success { background: linear-gradient(135deg, #1b7a4c 0%, #15603b 100%); }

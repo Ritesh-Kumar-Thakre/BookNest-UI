@@ -46,3 +46,15 @@
 .stock-item-info p { margin: 4px 0 8px; font-size: 12px; color: var(--on-surface-variant); }
 .stock-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; background: var(--surface-variant); color: var(--on-surface); }
 .stock-badge.critical { background: var(--error-container); color: var(--on-error-container); }
+
+@media (max-width: 480px) {
+  .dashboard-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .admin-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .admin-table th, .admin-table td { padding: 12px 16px; font-size: 12px; }
+}
+@media (max-width: 360px) {
+  .card-header { padding: 16px; }
+  .stock-list { padding: 16px; }
+  .stock-item-img { width: 40px; height: 56px; }
+}

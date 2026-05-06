@@ -129,28 +129,44 @@
   background-color: var(--surface);
 }
 
+.mobile-admin-footer { display: none; }
+
 @media (max-width: 1024px) {
-  .admin-sidebar { width: 72px; }
-  .sidebar-header h1,
-  .sidebar-header p,
-  .sidebar-links a span:not(.material-symbols-outlined),
-  .sidebar-footer span:not(.material-symbols-outlined) { display: none; }
-  .sidebar-header { padding: 0 16px; justify-content: center; }
-  .sidebar-header .material-symbols-outlined { margin-right: 0; }
-  .sidebar-links a { justify-content: center; padding: 14px; border-left: none; }
-  .logout-btn, .back-btn { justify-content: center; }
   .admin-content { padding: 20px; }
 }
 
 @media (max-width: 768px) {
-  .admin-container { flex-direction: column; }
-  .admin-sidebar { width: 100%; height: auto; flex-direction: row; }
-  .sidebar-header { height: 56px; }
+  .admin-container { flex-direction: column; height: 100vh; overflow: hidden; }
+  .admin-sidebar { width: 100%; height: auto; flex-direction: row; flex-shrink: 0; }
+  .sidebar-header { height: 56px; padding: 0 16px; }
+  .sidebar-header div { display: none; }
+  .sidebar-header .material-symbols-outlined { margin-right: 0; }
   .sidebar-links { flex-direction: row; padding: 0; overflow-x: auto; gap: 0; }
   .sidebar-links a { padding: 10px 16px; font-size: 12px; white-space: nowrap; }
   .sidebar-footer { display: none; }
-  .admin-main { height: auto; }
-  .admin-content { padding: 16px; }
-  .admin-header { padding: 0 16px; }
+  .admin-main { height: auto; flex: 1; min-height: 0; overflow: hidden; }
+  .admin-content { padding: 16px; overflow-y: auto; }
+  .admin-header { padding: 0 16px; flex-shrink: 0; }
+  
+  .mobile-admin-footer { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: 32px; 
+    padding-top: 24px; 
+    border-top: 1px solid var(--outline-variant); 
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .mobile-admin-footer a {
+    color: var(--on-surface);
+    background: var(--surface-container);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 }
 

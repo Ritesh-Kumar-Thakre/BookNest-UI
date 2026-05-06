@@ -32,3 +32,14 @@
 .status-select.cancelled { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
 
 .status-select:focus { box-shadow: 0 0 0 2px rgba(0,0,0,0.1); }
+
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+@media (max-width: 480px) {
+  .admin-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .address-cell { max-width: 150px; }
+}
+@media (max-width: 360px) {
+  .card { border-radius: 8px; }
+}

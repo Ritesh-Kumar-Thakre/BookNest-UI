@@ -8,4 +8,16 @@
 .footer-links a { display: block; font-size: 14px; padding: 4px 0; transition: color 0.2s; }
 .footer-links a:hover { color: var(--secondary-container); }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding: 16px 0; font-size: 13px; text-align: center; }
-@media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; gap: 32px; } }
+
+@media (max-width: 1024px) {
+  .footer-content { gap: 32px; }
+}
+@media (max-width: 768px) {
+  .footer-content { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+  .footer-brand p { max-width: 100%; margin: 0 auto; }
+  .footer-brand .logo { justify-content: center; }
+}
+@media (max-width: 480px) {
+  .footer-content { padding: 32px 0; gap: 24px; }
+  .footer-bottom { font-size: 11px; }
+}

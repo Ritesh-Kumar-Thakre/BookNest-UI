@@ -53,6 +53,7 @@
 .hero-actions {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
 }
 .hero-search-btn {
   padding: 14px 28px !important;
@@ -82,27 +83,6 @@
   object-fit: cover;
 }
 
-@media (max-width: 768px) {
-  .hero-layout {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-
-  .hero-content {
-    text-align: center;
-    padding-top: 0;
-  }
-
-  .hero-content .headline-xl {
-    font-size: 32px !important;
-  }
-
-  .hero-image {
-    justify-content: center;
-  }
-}
-
 /* Sections */
 .section {
   padding: 36px 0;
@@ -113,6 +93,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .genre-chips {
@@ -236,7 +218,6 @@
   display: flex;
   width: max-content;
   animation: scroll-carousel 30s linear infinite;
-  /* Slower for better readability */
   padding-left: 24px;
   margin-left: 0;
   justify-content: flex-start;
@@ -247,13 +228,8 @@
 }
 
 @keyframes scroll-carousel {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .carousel-card {
@@ -265,4 +241,57 @@
 
 .carousel-card:hover {
   transform: translateY(-8px);
+}
+
+/* ─── Tablet ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero { padding: 36px 20px; }
+  .hero-content .headline-xl { font-size: 40px !important; }
+  .hero-sub { font-size: 15px; }
+  .hero-image img { max-height: 380px; }
+  .book-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .carousel-card { width: 180px; margin-right: 16px; }
+}
+
+/* ─── Mobile ─────────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: 32px 16px; }
+  .hero-layout {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  .hero-content {
+    text-align: center;
+    padding-top: 0;
+    max-width: 100%;
+  }
+  .hero-content .headline-xl { font-size: 32px !important; }
+  .hero-sub { font-size: 15px; margin: 12px 0 20px; }
+  .hero-actions { justify-content: center; }
+  .hero-image { justify-content: center; }
+  .hero-image img { max-height: 280px; border-radius: 12px; }
+  .section { padding: 24px 0; }
+  .book-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .book-cover { height: 200px; }
+  .book-info { padding: 10px 12px 12px; }
+  .book-info h3 { font-size: 14px; }
+  .price { font-size: 14px; }
+  .carousel-card { width: 160px; margin-right: 12px; }
+  .carousel-container::before,
+  .carousel-container::after { width: 40px; }
+}
+
+/* ─── Small Mobile ───────────────────────── */
+@media (max-width: 480px) {
+  .hero { padding: 24px 12px; }
+  .hero-content .headline-xl { font-size: 26px !important; }
+  .hero-sub { font-size: 14px; }
+  .hero-search-btn { padding: 12px 20px !important; font-size: 14px !important; }
+  .hero-image img { max-height: 200px; }
+  .book-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .book-cover { height: 170px; }
+  .genre-chips { gap: 6px; }
+  .genre-chips .chip { padding: 4px 12px; font-size: 12px; }
+  .carousel-card { width: 140px; margin-right: 10px; }
 }

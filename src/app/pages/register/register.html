@@ -25,7 +25,7 @@
       <div class="form-group">
         <label class="form-label">Email</label>
         <input type="email" class="form-input" formControlName="email" placeholder="you&#64;example.com"
-               [class.input-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+               [class.input-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" autocomplete="off">
         @if (registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')) {
           <span class="field-error">Email is required</span>
         }
@@ -53,7 +53,7 @@
         <div class="password-wrapper">
           <input [type]="showPassword ? 'text' : 'password'" class="form-input" formControlName="password"
                  placeholder="Min 8 chars, mixed case, digit, special"
-                 [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                 [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" autocomplete="new-password">
           <button type="button" class="toggle-password" (click)="togglePassword()" tabindex="-1">
             <span class="material-symbols-outlined">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
           </button>

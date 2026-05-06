@@ -89,10 +89,23 @@
 }
 .empty-state { text-align: center; padding: 80px 0; }
 
+@media (max-width: 1024px) {
+  .book-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
 @media (max-width: 768px) {
   .search-bar { border-radius: 1rem; flex-wrap: wrap; padding: 8px; }
   .search-select { width: 100%; }
   .search-btn { width: 100%; border-radius: 0.75rem; }
   .book-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
   .book-cover { height: 180px; }
+}
+@media (max-width: 480px) {
+  .book-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .book-cover { height: 160px; }
+  .filter-chips { flex-wrap: wrap; gap: 6px; }
+  .filter-chip { padding: 6px 12px; font-size: 12px; }
+}
+@media (max-width: 360px) {
+  .book-grid { grid-template-columns: 1fr; }
+  .book-cover { height: 200px; }
 }

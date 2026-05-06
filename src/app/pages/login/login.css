@@ -41,3 +41,13 @@
 .auth-form .form-input:focus { border-color: var(--secondary-container); box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.2); }
 .auth-footer { text-align: center; margin-top: 24px; font-size: 14px; color: rgba(255, 255, 255, 0.7); }
 .auth-footer a { color: var(--secondary-container); font-weight: 600; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 32px 24px; }
+  .auth-page { padding: 32px 16px; }
+}
+@media (max-width: 360px) {
+  .auth-card { padding: 24px 16px; border-radius: 12px; }
+  .auth-header h1 { font-size: 24px; }
+  .auth-form { gap: 16px; }
+}

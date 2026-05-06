@@ -28,3 +28,21 @@
 }
 .out-of-stock-card { opacity: 0.8; }
 .out-of-stock-card:hover { transform: none; }
+
+@media (max-width: 1024px) {
+  .book-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+}
+@media (max-width: 768px) {
+  .book-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+  .book-cover { height: 200px; }
+}
+@media (max-width: 480px) {
+  .book-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .book-cover { height: 180px; }
+  .book-info { padding: 10px 12px 12px; }
+  .price { font-size: 14px; }
+}
+@media (max-width: 360px) {
+  .book-grid { grid-template-columns: 1fr; }
+  .book-cover { height: 200px; }
+}

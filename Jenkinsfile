@@ -41,6 +41,9 @@ pipeline {
 
         // ── Stage 5: Build Angular App ──────────────────────
         stage('Build') {
+            environment {
+                NODE_OPTIONS = '--max_old_space_size=4096'
+            }
             steps {
                 sh 'npm run build'
             }
@@ -79,15 +82,23 @@ pipeline {
             echo '✅ BookNest Frontend Pipeline completed successfully!'
         }
         failure {
-            node {
-                echo '❌ BookNest Frontend Pipeline failed!'
-                sh "docker stop ${DOCKER_IMAGE} || true"
-                sh "docker rm ${DOCKER_IMAGE} || true"
+            echo '❌ BookNest Frontend Pipeline failed!'
+            script {
+                try {
+                    sh "docker stop ${DOCKER_IMAGE} || true"
+                    sh "docker rm ${DOCKER_IMAGE} || true"
+                } catch (Exception e) {
+                    echo "Cleanup failed: ${e.message}"
+                }
             }
         }
         always {
-            node {
-                cleanWs(cleanWhenNotBuilt: false)
+            script {
+                try {
+                    cleanWs(cleanWhenNotBuilt: false)
+                } catch (Exception e) {
+                    echo "Clean workspace failed: ${e.message}"
+                }
             }
         }
     }

@@ -92,7 +92,7 @@ pipeline {
                 }
             }
         }
-        always {
+        cleanup {
             script {
                 try {
                     cleanWs(cleanWhenNotBuilt: false)

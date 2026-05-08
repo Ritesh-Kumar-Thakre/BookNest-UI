@@ -62,7 +62,7 @@ pipeline {
             steps {
                 sh "docker stop ${DOCKER_IMAGE} || true"
                 sh "docker rm ${DOCKER_IMAGE} || true"
-                sh "docker run -d --name ${DOCKER_IMAGE} -p 80:80 ${DOCKER_IMAGE}:latest"
+                sh "docker run -d --name ${DOCKER_IMAGE} --network booknest-backend_default -p 80:80 ${DOCKER_IMAGE}:latest"
             }
         }
 
